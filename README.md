@@ -9,7 +9,7 @@
 # ConQ! API
 
 
-## Author
+## Authors
 
 - [Jaderson Asc]()  
 - [Raphael](https://www.linkedin.com/in/raphaelv619/)  
