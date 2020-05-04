@@ -6,7 +6,6 @@ from rest_framework import viewsets
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
-# from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
@@ -22,7 +21,6 @@ class UsersViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     authentication_classes = [TokenAuthentication]
-    permission_classes = []
 
 
 def password_reset(request):

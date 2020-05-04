@@ -1,10 +1,10 @@
-<!-- <p align="center">
+<p align="center">
    <a href="https://github.com/MarGGet/conq-api">
-     <img src="assets/logo.png" alt="ConQ! API" title="ConQ! API" width="250px">
+     <img src="assets/logo.png" alt="ConQ! API" title="ConQ! API" width="200px">
    </a>
 </p>
 
------------------ -->
+-----------------
 
 # ConQ! API
 
