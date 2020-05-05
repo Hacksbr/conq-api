@@ -13,13 +13,34 @@ from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from rest_auth.registration.views import SocialLoginView, SocialConnectView
 
-from .models import User
-from .serializers import UserSerializer
+from .models import User, Profile, Phone, Address
+from .serializers import (
+    UserSerializer, ProfileSerializer,
+    PhoneSerializer, AddressSerializer
+)
 
 
 class UsersViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    authentication_classes = [TokenAuthentication]
+
+
+class ProfileViewSet(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    authentication_classes = [TokenAuthentication]
+
+
+class PhoneViewSet(viewsets.ModelViewSet):
+    queryset = Phone.objects.all()
+    serializer_class = PhoneSerializer
+    authentication_classes = [TokenAuthentication]
+
+
+class AddressViewSet(viewsets.ModelViewSet):
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
     authentication_classes = [TokenAuthentication]
 
 

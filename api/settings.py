@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
+    'localflavor',
     # my apps
     'accounts',
 ]

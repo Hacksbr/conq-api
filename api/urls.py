@@ -6,13 +6,17 @@ from django.conf.urls.static import static
 from .views import redirect_view
 from rest_framework import routers
 from accounts.views import (
-    UsersViewSet, CustomObtainAuthToken,
+    UsersViewSet, ProfileViewSet, PhoneViewSet, AddressViewSet,
+    CustomObtainAuthToken,
     FacebookLogin, FacebookConnect, GoogleLogin,
     password_reset
 )
 
 router = routers.DefaultRouter()
 router.register(r'users', UsersViewSet)
+router.register(r'profile', ProfileViewSet)
+router.register(r'phone', PhoneViewSet)
+router.register(r'address', AddressViewSet)
 
 
 urlpatterns = [

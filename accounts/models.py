@@ -6,7 +6,7 @@ from django.contrib.auth.models import send_mail
 # from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-# from localflavor.br.models import BRCPFField
+from localflavor.br.models import BRCPFField, BRPostalCodeField, BRStateField
 
 
 class UserManager(BaseUserManager):
@@ -90,6 +90,69 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def email_user(self, subject, message, from_email=None):
         send_mail(subject, message, from_email, [self.email])
+
+
+class Profile(models.Model):
+    CIVIL_CHOICES = [
+        (0, 'Solteiro (a)'),
+        (1, 'Casado (a)'),
+        (2, 'Divorciado (a)'),
+        (3, 'Viúvo (a)'),
+        (4, 'Outro')
+    ]
+    user = models.OneToOneField(
+        User, verbose_name='Usuário', 
+        related_name='users', 
+        on_delete=models.CASCADE
+    )
+    cpf = BRCPFField('CPF', max_length=14, default=None)
+    rg = models.CharField('RG', max_length=9, default=None)
+    birthday = models.DateField('Data de Nascimento', default=None)
+    civil_status = models.IntegerField('Estado Civil', choices=CIVIL_CHOICES, default=0)
+
+    def __str__(self):
+        return self.user.get_short_name()
+    
+    class Meta:
+        verbose_name='Usuário'
+        verbose_name_plural='Usuários'
+
+
+class Phone(models.Model):
+    profile = models.ForeignKey(
+        Profile, verbose_name='Usuário', 
+        related_name='phone', 
+        on_delete=models.CASCADE
+    )
+    ddi = models.CharField('DDI', max_length=3, null=True, default=None)
+    ddd = models.CharField('DDD', max_length=3, null=True, default=None)
+    number = models.CharField('Número', max_length=9, null=True, default=None)
+    
+    def get_number(self):
+        return f'{self.ddi}{self.ddd}{self.number}'
+    
+    class Meta:
+        verbose_name = 'Telefone'
+        verbose_name_plural = 'Telefones'
+
+
+class Address(models.Model):
+    profile = models.ForeignKey(
+        Profile, verbose_name='Usuário', 
+        related_name='address',
+        on_delete=models.CASCADE
+    )
+    postalcode = BRPostalCodeField('CEP', max_length=10, null=True, default=None)
+    street_name = models.CharField('Endereço', max_length=255, null=True, default=None)
+    street_number = models.CharField('Número', max_length=10, null=True, default=None)
+    complement = models.CharField('Complemento', max_length=100, null=True, default=None)
+    neighborhood = models.CharField('Bairro', max_length=100, null=True, default=None)
+    city = models.CharField('Cidade', max_length=100, null=True, default=None)
+    state = BRStateField('Estado', max_length=2, null=True, default=None)
+
+    class Meta:
+        verbose_name = 'Endereço'
+        verbose_name_plural = 'Endereços'
 
 
 # class PasswordReset(models.Model):
